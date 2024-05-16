@@ -142,6 +142,8 @@ progress {
     position: absolute;
     top: 10px;
     right: 10px;
+    display: flex;
+    justify-content: center;
     background: var(--light-theme-background);
     padding: 1rem;
     border-radius: 5px;
@@ -202,7 +204,7 @@ progress {
     }
 
     .settings-panel {
-        width: 80%;
+        width: 50%;
         right: 10%;
         top: 5%;
     }
@@ -233,8 +235,8 @@ progress {
     }
 
     .settings-panel {
-        width: 70%;
-        right: 15%;
+        width: 30%;
+        right: 5%;
         top: 5%;
     }
 }
@@ -264,8 +266,8 @@ progress {
     }
 
     .settings-panel {
-        width: 60%;
-        right: 20%;
+        width: 30%;
+        right: 5%;
         top: 5%;
     }
 }
