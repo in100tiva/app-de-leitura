@@ -1,0 +1,283 @@
+:root {
+    --primary-color: #4CAF50;
+    --primary-color-hover: #45a049;
+    --primary-color-active: #397d39;
+    --light-theme-background: #f0f0f0;
+    --light-theme-text: #333;
+    --dark-theme-background: #1a1a1a;
+    --dark-theme-text: #ccc;
+    --font-size-base: 16px;
+    --font-size-button: 1.2rem; /* Ajustado para acomodar ícones */
+    --padding-button: 0.75rem 1rem; 
+    --focus-outline-color: rgba(70, 158, 70, 0.5);
+    --highlight-color: #FFD700;
+    --inactivity-delay: 3000ms;
+}
+
+body {
+    background-color: var(--light-theme-background);
+    color: var(--light-theme-text);
+    transition: background-color 0.5s ease, color 0.5s ease;
+    font-family: Arial, sans-serif;
+}
+
+body.dark-theme {
+    background-color: var(--dark-theme-background);
+    color: var(--dark-theme-text);
+}
+
+#book-reader {
+    width: 80%;
+    max-width: 600px;
+    height: 800px;
+    margin: 20px auto;
+    background: inherit;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    transition: background-color 0.5s ease, box-shadow 0.5s ease;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+#book-text {
+    position: relative;
+    flex: 1;
+    overflow-y: auto;
+    font-size: var(--font-size-base);
+    line-height: 1.6;
+    padding: 10px;
+    transition: background-color 0.5s ease, color 0.5s ease;
+    border-radius: 10px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#book-text.marked-page::after {
+    content: "";
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    background-color: var(--highlight-color);
+    clip-path: polygon(0 100%, 100% 0, 100% 100%);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+    transition: opacity 0.5s ease;
+}
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Certifique-se de que os itens estejam centralizados */
+    flex-wrap: nowrap; /* Garante que os itens não quebrem a linha */
+    transition: opacity 0.5s ease;
+    padding: 0 10px;
+}
+
+.controls button {
+    font-size: var(--font-size-button);
+    padding: var(--padding-button);
+    margin: 5px;
+    border: none;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 5px;
+    display: flex; /* Garante que o conteúdo interno esteja alinhado */
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.controls button i {
+    pointer-events: none; /* Desabilitar eventos de ponteiro nos ícones */
+}
+
+.controls button:hover,
+.controls button:focus {
+    background-color: var(--primary-color-hover);
+    transform: scale(1.05);
+    outline: none;
+    box-shadow: 0 0 0 3px var(--focus-outline-color);
+}
+
+.controls button:active {
+    background-color: var(--primary-color-active);
+    animation: pulse 0.3s;
+}
+
+.settings-button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    cursor: pointer;
+    padding: 0.75rem 1rem;
+    margin: 5px;
+    display: flex; /* Garante que o conteúdo interno esteja alinhado */
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.settings-button:hover,
+.settings-button:focus {
+    color: var(--primary-color-hover);
+    transform: scale(1.1);
+}
+
+.settings-button:active {
+    color: var(--primary-color-active);
+}
+
+progress {
+    width: 100%;
+    height: 1.25rem;
+    border-radius: 5px;
+}
+
+.settings-panel {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--light-theme-background);
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform: translateY(-100%);
+    opacity: 0;
+    z-index: 20;
+}
+
+.settings-panel.visible {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.settings-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.settings-panel label {
+    margin-bottom: 0.5rem;
+}
+
+.settings-panel select,
+.settings-panel input {
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 0.5rem;
+}
+
+/* Responsividade para smartphones */
+@media (max-width: 600px) {
+    #book-reader {
+        width: 90%;
+        height: 600px;
+        padding: 10px;
+    }
+
+    #book-text {
+        font-size: 14px;
+    }
+
+    .controls {
+        flex-direction: row;
+        justify-content: space-between; /* Garante que os itens estejam distribuídos na linha */
+        align-items: center;
+    }
+
+    .controls button, .settings-button {
+        margin: 0 5px; /* Ajusta o espaçamento entre os botões */
+    }
+
+    .settings-button {
+        font-size: 1.2rem;
+    }
+
+    .settings-panel {
+        width: 80%;
+        right: 10%;
+        top: 5%;
+    }
+}
+
+/* Responsividade para tablets */
+@media (min-width: 601px) and (max-width: 1024px) {
+    #book-reader {
+        width: 85%;
+        height: 700px;
+        padding: 15px;
+    }
+
+    #book-text {
+        font-size: 15px;
+    }
+
+    .controls {
+        justify-content: space-around;
+    }
+
+    .controls button, .settings-button {
+        padding: 0.5rem 0.75rem;
+    }
+
+    .settings-button {
+        font-size: 1.3rem;
+    }
+
+    .settings-panel {
+        width: 70%;
+        right: 15%;
+        top: 5%;
+    }
+}
+
+/* Responsividade para desktops */
+@media (min-width: 1025px) {
+    #book-reader {
+        width: 70%;
+        height: 800px;
+        padding: 20px;
+    }
+
+    #book-text {
+        font-size: 16px;
+    }
+
+    .controls {
+        justify-content: space-between;
+    }
+
+    .controls button, .settings-button {
+        padding: 0.75rem 1rem;
+    }
+
+    .settings-button {
+        font-size: 1.5rem;
+    }
+
+    .settings-panel {
+        width: 60%;
+        right: 20%;
+        top: 5%;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.95);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
